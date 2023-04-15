@@ -21,7 +21,7 @@ contract MarriageRegistry is AccessControl, ERC721,ERC721Burnable,IERC5192 {
     IERC20 public erc20Token;
     uint256 public lockAmount;
 
-    constructor(address erc20TokenAddress, uint256 _lockAmount) ERC721("MarriageNFT", "MNFT") {
+    constructor(address erc20TokenAddress, uint256 _lockAmount) ERC721("MarriageRegistry", "MARRIAGE") {
         erc20Token = IERC20(erc20TokenAddress);
         lockAmount = _lockAmount;
 
@@ -41,16 +41,17 @@ contract MarriageRegistry is AccessControl, ERC721,ERC721Burnable,IERC5192 {
         address matchmaker;
     }
 
-     struct Divorce {
-        bool spouse1Approved;
-        bool spouse2Approved;
-    }
-
-     struct Settlement {
+    struct Settlement {
         bool proposed;
         bool sendToSpouse1;
         bool approved;
     }
+
+    struct Divorce {
+        bool spouse1Approved;
+        bool spouse2Approved;
+    }
+
 
     bytes32 public constant MATCHMAKER_ROLE = keccak256("MATCHMAKER_ROLE");
 
@@ -116,14 +117,14 @@ contract MarriageRegistry is AccessControl, ERC721,ERC721Burnable,IERC5192 {
             erc20Token.transfer(marriage.spouse2, lockAmount);
         }
     }
-     function proposeSettlement(uint256 marriageId, bool _sendToSpouse1) public {
+    function proposeSettlement(uint256 marriageId, bool _sendToSpouse1) public {
         Marriage memory marriage = marriages[marriageId];
         require(msg.sender == marriage.spouse1 || msg.sender == marriage.spouse2, "Caller must be one of the spouses");
 
         settlements[marriageId] = Settlement(true, _sendToSpouse1, false);
     }
 
-        function approveSettlement(uint256 marriageId) public {
+    function approveSettlement(uint256 marriageId) public {
         Marriage memory marriage = marriages[marriageId];
         require(msg.sender == marriage.spouse1 || msg.sender == marriage.spouse2, "Caller must be one of the spouses");
 
