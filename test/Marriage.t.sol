@@ -8,3 +8,15 @@ import "../lib/openzeppelin-contracts/contracts/utils/Counters.sol";
 import "../lib/openzeppelin-contracts/contracts/utils/Strings.sol";
 import "../src/Marriage.sol";
 
+    contract MarriageRegistryTest is Test {
+
+    MarriageRegistry marriageRegistry;
+    address testSpouse1;
+    address testSpouse2;
+
+
+
+     function testMintAndLockMarriageNFTs() public {
+
+    }
+}
